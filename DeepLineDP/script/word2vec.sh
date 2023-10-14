@@ -1,0 +1,9 @@
+python train_word2vec.py  activemq
+python train_word2vec.py  camel
+python train_word2vec.py  derby
+python train_word2vec.py  groovy
+python train_word2vec.py  hbase
+python train_word2vec.py  hive
+python train_word2vec.py  jruby
+python train_word2vec.py  lucene
+python train_word2vec.py  wicket
