@@ -1,0 +1,21 @@
+1. 有方法调用的代码行更容易出错, 调用层次越多越容易出错 该行的出现的token数目可以表征方法调用的复杂性
+2. 从前往后查看代码,在同一个方法中,分数相同的行应该按照行号进行排列
+f1 = code location
+f2 = token_number
+f3 = call depth
+f4 = call number
+实证研究 bug在文件中的位置分布
+
+
+RQ1 自身方法的性能
+RQ2 与LINE_DP进行对比
+
+
+调整为最差的序列时,会影响Simple模型的Recall,FAR等分类指标,因为Simple的分类结果是依赖于排序结果的
+但是不会影响Supervised模型的分类指标,因为它不依赖于排序序列进行分类
+
+
+易错点 函数体内的那些部件容易出错
+1 函数调用 越多, 越复杂 越容易出错
+2 条件判断处 分支条件 和 循环条件 表达式越复杂越容易出错, 影响程序流程的节点 for, while, if, else, switch, break, continue, return
+3 函数返回处
