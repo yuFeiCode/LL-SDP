@@ -9,6 +9,7 @@ The file-level datasets (in the File-level directory) contain the following colu
 *  File: A file name of source code
 *  Bug: A label indicating whether source code is clean or defective
 *  SRC: A content in source code file
+
 The line-level datasets (in the Line-level directory) contain the following columns
 
 *  File: A file name of source code
@@ -27,7 +28,7 @@ In above command,
 *  [model_name] indicates a CLBI approach, GLANCE_EA, GLANCE_MD, and GLANCE_LR.
 Here is some usage examples:
 
-python main.py GLANCE_EA
+`python main.py GLANCE_EA`
 
 **As for DeepLineDP**, you can follow the project in this giuhub repository to get the output file (https://github.com/awsm-research/DeepLineDP)
 
