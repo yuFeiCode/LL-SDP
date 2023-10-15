@@ -18,7 +18,7 @@ The line-level datasets (in the Line-level directory) contain the following colu
 
 ## Floders Introduction
 ## Execution commands
-**As for GLANCE**, In order to make it easier to obtain the classification results, one can run it according to the following command regulation.
+**As for GLANCE**, In order to make it easier to obtain the classification results, you can enter the GLANCE folder and run it according to the following command regulation.
 `python main.py [model_name]`
 
 In above command,
