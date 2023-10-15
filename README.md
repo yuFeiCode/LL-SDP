@@ -15,9 +15,7 @@ The line-level datasets (in the Line-level directory) contain the following colu
 *  File: A file name of source code
 *  Line_number: A line number where source code is modified
 *  SRC: An actual source code that is modified
-For each software project, we use the oldest release to train DeepLineDP models. The subsequent release is used as validation sets. The other releases are used as test sets.
 
-For example, there are 5 releases in ActiveMQ (e.g., R1, R2, R3, R4, R5), R1 is used as training set, R2 is used as validation set, and R3 - R5 are used as test sets.
 ## 1.Floders Introduction
 ## Execution commands
 **As for GLANCE**, In order to make it easier to obtain the classification results, one can run it according to the following command regulation.
