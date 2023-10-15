@@ -2,7 +2,7 @@
 ## Title:Deep line-level defect prediction: how far are we?
 This repository stores the source codes of DeepLineDP and GLANCE.
 ## Datasets
-The datasets are obtained from Wattanakriengkrai et. al. The datasets contain 32 software releases across 9 software projects. The datasets that we used in our experiment can be found in this github (https://github.com/awsm-research/line-level-defect-prediction).
+The datasets are obtained from Wattanakriengkrai et. al. The datasets contain 32 software releases across 9 software projects. The **datasets** that we used in our experiment can be found in this github (https://github.com/awsm-research/line-level-defect-prediction).
 
 The file-level datasets (in the File-level directory) contain the following columns
 
