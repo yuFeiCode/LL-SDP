@@ -16,7 +16,7 @@ The line-level datasets (in the Line-level directory) contain the following colu
 *  Line_number: A line number where source code is modified
 *  SRC: An actual source code that is modified
 
-## 1.Floders Introduction
+## Floders Introduction
 ## Execution commands
 **As for GLANCE**, In order to make it easier to obtain the classification results, one can run it according to the following command regulation.
 `python main.py [model_name]`
