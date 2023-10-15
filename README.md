@@ -28,7 +28,7 @@ Here is some usage examples:
 
 `python main.py GLANCE_EA`
 
-**As for DeepLineDP**, you can follow the project in this giuhub repository to get the output file (https://github.com/awsm-research/DeepLineDP)
+**As for DeepLineDP**, you can follow the project in this github repository to get the output file (https://github.com/awsm-research/DeepLineDP)
 
 ## Obtaining the Evaluation Result
 Run get_evaluation_result.R to get the result
