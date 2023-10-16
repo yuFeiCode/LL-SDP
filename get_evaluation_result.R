@@ -1,5 +1,3 @@
-#2023-10-14修订
-
 library(tidyverse)
 library(gridExtra)
 
@@ -16,7 +14,7 @@ library(ScottKnottESD)
 library(dplyr)
 library(tibble)
 
-save.fig.dir = 'E:/mypapers/yufei/defect prediction/(2023-09-03)lineDP how far/result/figure/'
+save.fig.dir = 'D:/Gitee-code/how-far-we-go-github项目提交/DeepLineDP/result/figure/'
 
 dir.create(file.path(save.fig.dir), showWarnings = FALSE)
 
@@ -51,8 +49,8 @@ get.top.k.tokens = function(df, k)
   return(top.k)
 }
 
-
-prediction_dir = 'E:/mypapers/yufei/defect prediction/(2023-09-03)lineDP how far/result/DeepLineDP实验输出结果/within-release/'
+# DeepLineDP 输出结果存放路径
+prediction_dir = 'D:/DeepLineDP/within-release/'
 
 
 all_files = list.files(prediction_dir)
@@ -155,16 +153,16 @@ get.file.level.eval.result = function(prediction.dir, method.name)
 }
  
 
-deeplinedp.prediction.dir = "E:/mypapers/yufei/defect prediction/(2023-09-03)lineDP how far/result/DeepLineDP实验输出结果/within-release/" 
+deeplinedp.prediction.dir = "D:/DeepLineDP/within-release/" 
 deepline.dp.result = get.file.level.eval.result(deeplinedp.prediction.dir, "DeepLineDP")
 
-GLANCE.EA.prediction.dir = "E:/mypapers/yufei/defect prediction/(2023-09-03)lineDP how far/result/(2023-10-13)glance/line-threshold=1__BASE-Glance-ALL(2023-10-13)/BASE-Glance-EA/file_result/test/"
+GLANCE.EA.prediction.dir = "D:/GLANCE/result/BASE-Glance-EA/file_result/test/"
 GLANCE.ea.result = get.file.level.eval.result(GLANCE.EA.prediction.dir, "GLANCE-EA")
 
-GLANCE.MD.prediction.dir = "E:/mypapers/yufei/defect prediction/(2023-09-03)lineDP how far/result/(2023-10-13)glance/line-threshold=1__BASE-Glance-ALL(2023-10-13)/BASE-Glance-MD/file_result/test/"
+GLANCE.MD.prediction.dir = "D:/GLANCE/result/BASE-Glance-MD/file_result/test/"
 GLANCE.md.result = get.file.level.eval.result(GLANCE.MD.prediction.dir, "GLANCE-MD")
 
-GLANCE.LR.prediction.dir = 'E:/mypapers/yufei/defect prediction/(2023-09-03)lineDP how far/result/(2023-10-13)glance/line-threshold=1__BASE-Glance-ALL(2023-10-13)/BASE-Glance-LR/file_result/test/'
+GLANCE.LR.prediction.dir = 'D:/GLANCE/result/BASE-Glance-LR/file_result/test/'
 GLANCE.lr.result = get.file.level.eval.result(GLANCE.LR.prediction.dir, "GLANCE-LR")
 
 all.result = rbind(GLANCE.lr.result, GLANCE.ea.result, GLANCE.md.result, deepline.dp.result)
@@ -194,18 +192,6 @@ ggsave(paste0(save.fig.dir, "file-MCC.pdf"),width=5,height=2.5)
  
 
 # ---------------- Code for RQ2 -----------------------#
-## 两阶段预测，第一阶段文件级别，第二阶段行级。在第一阶段，人工审查或者测试那些被预测为有缺陷的文件，知道了哪些文件真
-## 的有缺陷；在第二阶段，人工审查上一段得到的真的有缺陷的文件，看哪些行有缺陷，是针对每个实际有缺陷的文件进行行级缺陷
-## 预测，因此在每个实际有缺陷的文件上计算行级性能指标
-
-## 在DeepLineDP论文中，对于行级的baseline models，只考虑一个阶段，
-## 直接对test版本进行行级缺陷预测（不像GLANCE的做法，先对文件预测，再对预测为有缺陷的文件进行行级预测），
-## 即对test版本中所有实际有缺陷的文件进行行级预测；在与DeepLineDP进行比较时，
-## 只取那些被DeepLineDP预测为有缺陷且实际有缺陷的文件进行行级预测比较
-## 因此，DeepLineDP和baseline models是配对的实验结果
-
-## 在RQ2中，我们采用DeepLineDP的评价方法来评价GLANCE：取阈值threshold=1，对预测为有缺陷的文件而言，所有的代码行都参与排序；针对那些被预测为有缺陷且实际有缺陷的文件，分析代码行级的排序性能指标IFA、recall@20%loc、effort@20%recall
-
 
 ## prepare data for baseline
 line.ground.truth = select(df_all,  project, train, test, filename, file.level.ground.truth, prediction.prob, line.number, line.level.ground.truth, is.comment.line)
@@ -251,8 +237,7 @@ get.line.metrics.result = function(baseline.df, cur.df.file)
     recall.list = recall20LOC$recall20LOC
 
     #Effort20%Recall：按行line.score从大到小排好序后，计算达到20%行级缺陷召回率时所需要审查的代码行占比，即effort
-    effort20Recall = sorted %>% merge(total_true) %>% group_by(filename) %>% mutate(cummulative_correct_pred = cumsum(line.level.ground.truth == "True"), recall = round(cumsum(line.level.ground.truth == "True")/total_true, digits = 2)) %>%
-    summarise(effort20Recall = sum(recall <= 0.2)/n())
+    effort20Recall = sorted %>% merge(total_true)  %>% group_by(filename) %>% arrange(order, .by_group=TRUE) %>% mutate    (cummulative_correct_pred = cumsum  (line.level.ground.truth == "True"), recall = round(cumsum(line.level.ground.truth ==      "True")/total_true, digits = 2)) %>% mutate(class = case_when((line.level.ground.truth == 'True' & recall <= 0.2) ~ order/n(),TRUE ~ 0))     %>%  summarize(effort20Recall = if_else(max(class)==0, sum(recall <= 0.2)/n(), max(class) ))
 
     ## added 2023-09-16 确保按文件名排序
     effort20Recall = effort20Recall %>% arrange(filename)
@@ -271,11 +256,11 @@ all_eval_releases = c('activemq-5.2.0', 'activemq-5.3.0', 'activemq-5.8.0',
                       'hive-0.12.0', 'jruby-1.5.0', 'jruby-1.7.0.preview1',  
                       'lucene-3.0.0', 'lucene-3.1', 'wicket-1.5.3')
 
-glance.ea.result.dir = 'E:/mypapers/yufei/defect prediction/(2023-09-03)lineDP how far/result/(2023-10-13)glance/threshold=1_GLANCE-ALL(2023-10-13)/BASE-Glance-EA/line_result/test/'
+glance.ea.result.dir = 'D:/GLANCE/result/BASE-Glance-EA/line_result/test/'
 
-glance.md.result.dir = 'E:/mypapers/yufei/defect prediction/(2023-09-03)lineDP how far/result/(2023-10-13)glance/threshold=1_GLANCE-ALL(2023-10-13)/BASE-Glance-MD/line_result/test/'
+glance.md.result.dir = 'D:/GLANCE/result/BASE-Glance-MD/line_result/test/'
 
-glance.lr.result.dir = 'E:/mypapers/yufei/defect prediction/(2023-09-03)lineDP how far/result/(2023-10-13)glance/threshold=1_GLANCE-ALL(2023-10-13)/BASE-Glance-LR/line_result/test/'
+glance.lr.result.dir = 'D:/GLANCE/result/BASE-Glance-LR/line_result/test/'
 
 glance.ea.result.df = NULL
 glance.md.result.df = NULL
@@ -326,7 +311,6 @@ merged_df_all[is.na(merged_df_all$flag),]$token.attention.score = 0
 sum_line_attn = merged_df_all %>% filter(file.level.ground.truth == "True" & prediction.label == "True" ) %>% group_by(test, filename,is.comment.line, file.level.ground.truth, prediction.label, line.number, line.level.ground.truth) %>%
   summarize(attention_score = sum(token.attention.score), num_tokens = n())
 
-##非常重要：需要filter(is.comment.line== "False") ，原始论文中没有过滤，导致注释行参与排序和性能的计算，放大了recall，降低了effort
 sorted = sum_line_attn %>% filter(is.comment.line== "False") %>% group_by(test, filename) %>%  arrange(-attention_score, .by_group=TRUE) %>% mutate(order = row_number())%>% mutate(totalSLOC = n())
 
 ## get result from DeepLineDP
@@ -351,8 +335,7 @@ recall20LOC = sorted %>% group_by(test, filename) %>% mutate(effort = round(orde
 recall20LOC = recall20LOC %>% arrange(test, filename)
 
 # calculate Effort20%Recall
-effort20Recall = sorted %>% merge(total_true) %>% group_by(test, filename) %>% mutate(cummulative_correct_pred = cumsum(line.level.ground.truth == "True"), recall = round(cumsum(line.level.ground.truth == "True")/total_true, digits = 2)) %>%
-  summarise(effort20Recall = sum(recall <= 0.2)/n())
+effort20Recall = sorted %>% merge(total_true)  %>% group_by(test, filename) %>% arrange(order, .by_group=TRUE) %>% mutate(cummulative_correct_pred = cumsum  (line.level.ground.truth == "True"), recall = round(cumsum(line.level.ground.truth == "True")/total_true, digits = 2)) %>% mutate(class = case_when((line.level.ground.truth == 'True' & recall <= 0.2) ~ order/n(),TRUE ~ 0)) %>%  summarize(effort20Recall = if_else(max(class)==0, sum(recall <= 0.2)/n(), max(class) ))
 
 ## added 2023-09-16 确保按文件名排序
 effort20Recall = effort20Recall %>% arrange(test, filename)

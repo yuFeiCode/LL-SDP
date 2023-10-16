@@ -4,16 +4,13 @@ import numpy as np
 
 from my_util import *
 
-#数据集的位置
 data_root_dir = '../datasets/original/'
-#存放预处理之后数据结果的地方
 save_dir = "../datasets/preprocessed_data/" 
-#将每个文件中的这些符号给去除掉
 char_to_remove = ['+','-','*','/','=','++','--','\\','<str>','<char>','|','&','!']
-#如果没有这个文件，就新建一个文件夹存放预处理之后文件，
+
 if not os.path.exists(save_dir):
     os.makedirs(save_dir)
-#文件级的分类和行级的分类
+
 file_lvl_dir = data_root_dir+'File-level/'
 line_lvl_dir = data_root_dir+'Line-level/'
 
