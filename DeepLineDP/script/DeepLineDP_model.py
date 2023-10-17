@@ -18,20 +18,15 @@ class HierarchicalAttentionNetwork(nn.Module):
         use_layer_norm: whether to use layer normalization
         dropout: dropout rate; 0 to not use dropout
         """
-        #继承父类的初始化方法。
+        
         super(HierarchicalAttentionNetwork, self).__init__()
         
-        #创建一个SentenceAttention对象，该对象是句子注意力模块
         self.sent_attention = SentenceAttention(
             vocab_size, embed_dim, word_gru_hidden_dim, sent_gru_hidden_dim,
             word_gru_num_layers, sent_gru_num_layers, word_att_dim, sent_att_dim, use_layer_norm, dropout)
         
-        #创建一个线性层，用于将双向GRU的输出映射到一个维度为1的输出。
-         #这一层用于将句子级别注意力模型的输出映射到一个单一的预测值
         self.fc = nn.Linear(2 * sent_gru_hidden_dim, 1)
         
-        #创建一个线性层，用于将双向GRU的输出映射到一个维度为1的输出。
-        #定义了一个nn.Sigmoid()层self.sig，用于将预测值通过 Sigmoid 函数进行概率映射，输出一个介于 0 和 1 之间的值
         self.sig = nn.Sigmoid()
 
         self.use_layer_nome = use_layer_norm

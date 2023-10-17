@@ -49,16 +49,10 @@ class BaseModel(object):
                 train_release, file_path=f'{root_path}Dataset/File-level/')####修改的地方
         else:
             self.train_text, self.train_text_lines, self.train_label, self.train_filename, self.train_line_numbers= read_file_level_dataset(
-                train_release)
-        # self.test_line_numbers存放的是每一行代码在实际文件中的行数
-        # self.test_filename 存放的是每一个java文件的文件名
-        # self.test_labels 存放的是所有java文件实际的缺陷标签（0代表无，1代表有）
-        # self.test_text_lines 是一个二维的列表，存放的是所有的java文件，每一个元素对应的是code_lines(列表类型),每一个code_lines对应的是每一个java文件去除空白行和注释行的代码行
-        # self.test_text 存放的是所有java文件处理过后的代码行（每个文件的代码行用空格连接）
+                train_release)      
         self.test_text, self.test_text_lines, self.test_labels, self.test_filename, self.test_line_numbers= read_file_level_dataset(
             test_release)
 
-        # 明确存储实验结果的每个文件夹及文件路径
         # result file path
         self.file_level_result_file = f'{self.file_level_result_path}{self.project_name}/{self.test_release}-result.csv'
         self.line_level_result_file = f'{self.line_level_result_path}{self.project_name}/{self.test_release}-result.csv'
@@ -78,7 +72,6 @@ class BaseModel(object):
         self.predicted_buggy_lines = []
         self.predicted_buggy_score = []
         self.predicted_density = []
-        # rank 存放 rank信息，predicted_buggy_line_numbers存在代码行在实际文件中的位置
         self.rank = []
         self.predicted_buggy_line_numbers = []
         self.file_level_label =[]
@@ -250,7 +243,7 @@ class BaseModel(object):
         # buggy_lines_dict = read_dict_from_file(f'{self.commit_buggy_path}/{self.test_release}_commit_buggy_lines.csv')
         buggy_lines_dict = {}  # = read_dict_from_file(f'{self.commit_buggy_path}/{self.test_release}_commit_buggy_lines.csv')
         total_bugs = len(buggy_lines_dict.keys())
-        hit_bugs = set() #集合
+        hit_bugs = set() 
         for line in self.predicted_buggy_lines:
             for bug_commit, lines in buggy_lines_dict.items():
                 if line in lines:
@@ -315,8 +308,7 @@ class BaseModel(object):
         :return:
         """
         count, ifa, recall_20, max_effort = 0, 0, 0, int(self.num_total_lines * self.threshold_effort)
-        #ranked_predicted_buggy_lines[]中存放的是排过序的代码行
-        #self.oracle_line_set存放的是缺陷列表，也就是有bug的行都存放在oracle_line_set结合当中
+        
         for line in ranked_predicted_buggy_lines[:max_effort]:
             if line in self.oracle_line_set:
                 ifa = count if ifa == 0 else ifa
@@ -353,7 +345,7 @@ class BaseModel(object):
         Require: self.line_level_result_file
         :return:
         """
-        # 添加rank信息，
+       
         data = {'predicted_buggy_lines': self.predicted_buggy_lines,
                 'predicted_buggy_line_numbers':self.predicted_buggy_line_numbers,
                 'predicted_buggy_score': self.predicted_buggy_score,

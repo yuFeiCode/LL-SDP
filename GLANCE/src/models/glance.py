@@ -5,7 +5,7 @@ from src.models.base_model import BaseModel
 
 
 def call_number(statement):
-    statement = statement.strip('\"') #移除字符串开头和结尾的双引号
+    statement = statement.strip('\"') 
     score = 0
     for char in statement:
         if char == '(':
@@ -23,9 +23,9 @@ class Glance(BaseModel):
 
         super().__init__(train_release, test_release, test_result_path, is_realistic)
         # Line level classification threshold
-        self.line_threshold = line_threshold #阈值
-        self.tokenizer = self.vector.build_tokenizer() #分词器
-        self.tags = ['todo', 'hack', 'fixme', 'xxx'] #自承认技术债
+        self.line_threshold = line_threshold 
+        self.tokenizer = self.vector.build_tokenizer() 
+        self.tags = ['todo', 'hack', 'fixme', 'xxx'] 
 
     def line_level_prediction(self):
         super(Glance, self).line_level_prediction()
@@ -84,11 +84,9 @@ class Glance(BaseModel):
 
             # line + 1,因为下标是从0开始计数而不是从1开始
             # 分类为有缺陷的代码行索引
-            # sorted_index对应的是hit_count中每个值对应的下标
-            # sorted_index = -hit_count.argsort(kind= 'mergesort').tolist()[:int(len(hit_count) * self.line_threshold)]
             sorted_index = np.argsort(-hit_count,kind = 'mergesort').tolist()[:int(len(hit_count) * self.line_threshold)]
-            # 去除掉值为0的索引
             
+            # 去除掉值为0的索引
             sorted_index = [i for i in sorted_index if hit_count[i] > 0]
             # ================= Considering CC statements =====================
             # 重新排序, 将包含CC的代码行排在前面
@@ -97,19 +95,14 @@ class Glance(BaseModel):
 
             # ############################ 重点,怎么给每行赋一个缺陷值 END ################################
 
-            # 新添 predicted_line_numbers 和 rank
-            # test_line_numbers 存放的是每一行代码在实际文件中的位置
-            # self.test_line_numbers是一个二维列表
+            
             predicted_line_numbers.extend([self.test_line_numbers[defective_file_index[i]][h] for h in resorted_index])
             predicted_score.extend([hit_count[i] for i in resorted_index])
-            # predicted_lines.extend([f'{defective_filename}:{i+1}' for i in resorted_index]) 
             predicted_lines.extend([f'{defective_filename}:{self.test_line_numbers[defective_file_index[i]][h]}' for h in resorted_index])
-            # rank 的值 == predicted_lines + 1
-            rank.extend([i + 1 for i in range(len(resorted_index))]) #rank信息
+            rank.extend([i + 1 for i in range(len(resorted_index))])
             density = f'{len(np.where(hit_count > 0)) / len(hit_count)}'
             predicted_density.extend([density for i in resorted_index])# NOTE may be removed later
             file_label.extend(self.test_labels[defective_file_index[i]] for h in resorted_index)
-            # print(f'已完成: {defective_filename}')
             
 
         self.rank = rank
@@ -149,19 +142,18 @@ class Glance_MD(Glance):
             return
 
         num_of_files = len(self.test_text)
-        test_prediction = np.zeros(num_of_files, dtype=int).tolist()  # 初始化空的list
-
-        # 每个文件的非空代码行, 自承认技术债, 分数
+        test_prediction = np.zeros(num_of_files, dtype=int).tolist()  
+        
         loc, debts, score = [], [], []
         for file_index in range(num_of_files):
-            # 所有测试文件的代码行组成的列表
+            
             loc.append(len([line for line in self.test_text_lines[file_index] if line.strip() != '']))
-            # 所有测试文件包含的SATD数组成的列表
+            
             debts.append(len([tag for tag in self.tags if tag in self.test_text[file_index].lower()]))
 
-        # 不包含技术债的文件排除掉
+        
         score = loc
-        # 降序排列索引
+        
         sorted_index = np.argsort(score).tolist()[::-1]
 
         file_count = 0
@@ -299,7 +291,7 @@ class Glance_LR(Glance):
     File level classifier: Logistic Regression
     """
     model_name = 'BASE-Glance-LR'
-    # 此处将line_threshold == 0.5 换成 line_threshold == 1
+    
     def __init__(self, train_release='', test_release='', line_threshold=0.5, test=False, is_realistic=False):
         test_result_path = ''
         if test:

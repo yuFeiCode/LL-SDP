@@ -8,7 +8,7 @@ from src.models.explain import *
 from src.models.glance import *
 from src.models.natural import *
 #sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(main.py))))
-# 忽略警告信息
+
 warnings.filterwarnings('ignore')
 simplefilter(action='ignore', category=FutureWarning)
 

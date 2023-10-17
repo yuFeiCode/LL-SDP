@@ -7,14 +7,13 @@ import re
 import numpy as np
 import pickle
 
-# 忽略警告信息
+
 from src.utils.config import PROJECT_RELEASE_LIST
 
 simplefilter(action='ignore', category=FutureWarning)
 
-# 全局变量设置
-# r'/root/line-dp/CLDP_data/' r'D:/CLDP_data/'
-root_path = r'D:/Gitee-code/how-far-we-go-github项目提交/GLANCE/'   ############修改的地方
+
+root_path = r'D:/Gitee-code/how-far-we-go-github项目提交/GLANCE/'  
 dataset_string = 'Dataset'
 result_string = 'Result'
 
@@ -109,19 +108,13 @@ def read_file_level_dataset(release='', file_path=file_level_path):
         # 行级别的文本语料库
         texts_lines = []
         line_numbers = []
-        for i in range(len(src_file_indices)): #这个循环相当于是对所有文件进行遍历
-            # 从当前文件名所在行开始到下一个文件名所在行结束的所有代码行
+        for i in range(len(src_file_indices)): 
+           
             s_index = src_file_indices[i]
             e_index = src_file_indices[i + 1] if i + 1 < len(src_file_indices) else len(lines)
 
             # xxx 也许需要过滤掉注释行
-            # Glance将空白行利用空字符串进行改写
-            # 将注释行进行和空白行一样的改写
-            # 先将一个文件中的字符串连接成一个大字符串
             temp_lines = lines[s_index:e_index]
-            
-            # temp_lines[0] = temp_lines[0].split(',')[-1][1:]
-            # temp_lines = temp_lines[:-1]
             
             all_lines = ''.join(temp_lines)
                        
@@ -142,10 +135,8 @@ def read_file_level_dataset(release='', file_path=file_level_path):
                     #如果时注释行的话，当前的代码行会被直接改写成空字符串
                     lines[count] = ''
                 count = count + 1
-                
-            # 去掉首行中的文件名和标签,以及首行中的引号"
-            temp_lines[0] = temp_lines[0].split(',')[-1][1:]
-            #如果第一行是注释行的话，置成空字符串
+                          
+            temp_lines[0] = temp_lines[0].split(',')[-1][1:]          
             if(is_comment_line(temp_lines[0],comments_list)):
                 lines[s_index] = ''
             
@@ -154,24 +145,13 @@ def read_file_level_dataset(release='', file_path=file_level_path):
                 if line.strip() != '':
                     code_lines.append(line)
                     within_file_line_numbers.append(index-s_index+1)
-            # code_lines = [line.strip() for line in lines[s_index:e_index]]
-            # 去掉首行中的文件名和标签,以及首行中的引号"
-            # code_lines[0] = code_lines[0].split(',')[-1][1:]
-            
-            #if(is_comment_line(code_lines[0],comments_list)):
-            #    code_lines[0] = ''
-            
-            # 删除列表中最后的"
+           
             code_lines = code_lines[:-1]
             texts_lines.append(code_lines)
-            within_file_line_numbers = within_file_line_numbers[:-1] #去除最后一行的结果
+            within_file_line_numbers = within_file_line_numbers[:-1] 
             line_numbers.append(within_file_line_numbers)
             count = 0
-        # code_lines存放的是每一个java文件去除空白行和注释行之后的代码行（堆积在一起），是一个列表
-        # line_numbers存放的是每一个代码行在实际java文件中存放的位置
-        # text_lines存放的是所有的java文件，每一个元素对应的是code_lines类型，存放的格式code_lines对应的格式
-        # texts存放的是所有java文件处理过后的代码行（每个文件的代码行用空格连接）
-        # 多行合并后的文本语料库
+       
         texts = [' '.join(line) for line in texts_lines]
 
         
@@ -301,25 +281,6 @@ def remove_path(path):
             shutil.rmtree(file_path)
 
 
-# def dataset_statistics():
-#     """
-#     数据集统计信息
-#     :return:
-#     """
-#     print('release name, #files, #buggy files, ratio, #LOC, #buggy LOC, ratio, #tokens')
-#     for proj in PROJECT_RELEASE_LIST:
-#         texts, texts_lines, numeric_labels, src_files = read_file_level_dataset(proj)
-#
-#         file_num = len(texts)
-#         bug_num = len([l for l in numeric_labels if l == 1])
-#         file_ratio = bug_num / file_num
-#
-#         loc = sum([len([line for line in text if not line == ""]) for text in texts_lines])
-#         bug_lines = sum([len(v) for k, v in read_line_level_dataset(proj).items()])
-#         line_ratio = bug_lines / loc
-#
-#         res = (proj, file_num, bug_num, file_ratio, loc, bug_lines, line_ratio)
-#         print("%s, %d, %d, %f, %d, %d, %f" % res)
 
 
 def dataset_statistics():

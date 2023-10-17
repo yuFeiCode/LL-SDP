@@ -25,8 +25,7 @@ USE_CACHE = False
 # --------------------------------
 # Dataset project
 # --------------------------------
-# 按照时间排好顺序的releases
-# 一共与142个文件，19个类别的数据集，19个训练文件，123个测试文件
+
 '''PROJECT_RELEASE_LIST = [
     
     'ambari-1.2.0', 'ambari-2.1.0', 'ambari-2.2.0', 'ambari-2.4.0', 'ambari-2.5.0', 'ambari-2.6.0', 'ambari-2.7.0',
@@ -57,7 +56,7 @@ USE_CACHE = False
     'zookeeper-3.4.6', 'zookeeper-3.5.1', 'zookeeper-3.5.2', 'zookeeper-3.5.3',
    
 ]'''
- #'activemq-5.1.0'
+
 PROJECT_RELEASE_LIST=[
     'activemq-5.0.0','activemq-5.1.0', 'activemq-5.2.0', 'activemq-5.3.0', 'activemq-5.8.0',
     'camel-1.4.0','camel-2.9.0', 'camel-2.10.0', 'camel-2.11.0',
