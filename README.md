@@ -22,7 +22,8 @@ The line-level datasets (in the Line-level directory) contain the following colu
 
 # Python Environment Setup
   1.clone the github respository by using the following command:
-    `git clone `
+    `git clone https://github.com/yuFeiCode/How-far-are-we-.git`
+  2.download the datasets from the This site was built using [GitHub Pages](https://pages.github.com/).
 
 ## Execution commands
 **As for GLANCE**, In order to make it easier to obtain the classification results, you can enter the GLANCE folder and run it according to the following command regulation.
