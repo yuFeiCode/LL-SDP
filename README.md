@@ -17,6 +17,13 @@ The line-level datasets (in the Line-level directory) contain the following colu
 *  SRC: An actual source code that is modified
 
 ## Floders Introduction
+
+## Environment Setup
+
+# Python Environment Setup
+  1.clone the github respository by using the following command:
+    `git clone `
+
 ## Execution commands
 **As for GLANCE**, In order to make it easier to obtain the classification results, you can enter the GLANCE folder and run it according to the following command regulation.
 `python main.py [model_name]`
