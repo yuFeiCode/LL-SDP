@@ -119,7 +119,7 @@ The generated output is stored in `./output/prediction/DeepLineDP/within-release
   
 ## Obtaining the Evaluation Result
 
-Run `get_evaluation_result.R` to get the result of RQ1-RQ4 (may run in IDE or by the following command)
+Run `get_evaluation_result.R` to get the result of RQ1 and RQ2 (may run in IDE or by the following command)
 
   `Rscript  get_evaluation_result.R`
 
