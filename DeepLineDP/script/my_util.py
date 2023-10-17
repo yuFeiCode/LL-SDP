@@ -37,6 +37,10 @@ file_lvl_gt = '../datasets/preprocessed_data/'
 
 word2vec_dir = '../output/Word2Vec_model/' 
 
+def get_w2v_path():
+    
+    return word2vec_dir
+
 def get_df(rel, is_baseline=False): #默认是Flase
 
     if is_baseline:

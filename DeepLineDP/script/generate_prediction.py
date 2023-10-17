@@ -66,7 +66,7 @@ def predict_defective_files_in_releases(dataset_name, target_epochs):
     word2vec = Word2Vec.load(word2vec_file_dir)
     print('load Word2Vec for',dataset_name,'finished')
 
-    total_vocab = len(word2vec.wv.vocab)
+    total_vocab = len(word2vec.wv.key_to_index)
 
     vocab_size = total_vocab +1 # for unknown tokens
   

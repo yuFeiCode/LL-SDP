@@ -14,7 +14,7 @@ simplefilter(action='ignore', category=FutureWarning)
 
 # 全局变量设置
 # r'/root/line-dp/CLDP_data/' r'D:/CLDP_data/'
-root_path = r'D:/Gitee-code/CLBI/'   ############修改的地方
+root_path = r'D:/Gitee-code/how-far-we-go-github项目提交/GLANCE/'   ############修改的地方
 dataset_string = 'Dataset'
 result_string = 'Result'
 
