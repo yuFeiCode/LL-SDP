@@ -124,3 +124,7 @@ Run `get_evaluation_result.R` to get the result of RQ1 and RQ2 (may run in IDE o
   `Rscript  get_evaluation_result.R`
 
 the result are figures that are sorted in `./figures`
+
+## Contact us
+
+**Mail**:2574243694@qq.com
