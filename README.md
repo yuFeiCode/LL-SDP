@@ -127,4 +127,4 @@ the result are figures that are sorted in `./figures`
 
 ## Contact us
 
-**Mail**:zyf@stu.gxnu.edu.cn
+**Mail**: zyf@stu.gxnu.edu.cn
