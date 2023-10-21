@@ -45,7 +45,7 @@ The line-level datasets (in the Line-level directory) contain the following colu
 
   1.clone the github respository by using the following command:
   
-    git clone https://github.com/yuFeiCode/How-far-are-we-.git
+    git clone https://github.com/yuFeiCode/LL-SDP.git
     
   2.download the datasets from the this [github](https://github.com/awsm-research/line-level-defect-prediction) and keep it in `DeepLineDP/datasets/original` and `GLANCE/Dataste/`
   
