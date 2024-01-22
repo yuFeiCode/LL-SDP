@@ -127,7 +127,7 @@ class Glance_MD(Glance):
     """
     model_name = 'BASE-Glance-MD'
 
-    def __init__(self, train_release='', test_release='', line_threshold=0.5, file_threshold=0.5, test=False,
+    def __init__(self, train_release='', test_release='', line_threshold= 1, file_threshold=0.5, test=False,
                  is_realistic=False):
         test_result_path = ''
         if test:
@@ -178,7 +178,7 @@ class Glance_EA(Glance):
     """
     model_name = 'BASE-Glance-EA'
 
-    def __init__(self, train_release='', test_release='', line_threshold=0.5, file_threshold=0.5, test=False,
+    def __init__(self, train_release='', test_release='', line_threshold= 1, file_threshold=0.5, test=False,
                  is_realistic=False):
         test_result_path = ''
         if test:
@@ -292,7 +292,7 @@ class Glance_LR(Glance):
     """
     model_name = 'BASE-Glance-LR'
     
-    def __init__(self, train_release='', test_release='', line_threshold=0.5, test=False, is_realistic=False):
+    def __init__(self, train_release='', test_release='', line_threshold= 1, test=False, is_realistic=False):
         test_result_path = ''
         if test:
             self.model_name = f'Glance-LR-{str(int(line_threshold * 100))}'
