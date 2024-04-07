@@ -1,6 +1,5 @@
 # The replication kit of Experiment
 ##  Title: Deep learning or classical machine learning? An empirical study on line-level software defect prediction
-This repository stores the source codes of DeepLineDP and GLANCE.
 ## Datasets
 The datasets are obtained from Wattanakriengkrai et. al. The datasets contain 32 software releases across 9 software projects. The [datasets](https://github.com/awsm-research/line-level-defect-prediction) that we used in our experiment can be found in this github .
 
